@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FraudWatch Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🛡️
+            </div>
+
+            <div>
+                <h1>FraudWatch</h1>
+
+                <p>
+                    Transaction Anomaly Detection System
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="server-status">
+
+            <span class="status-dot"></span>
+
+            Backend Connected
+
+        </div>
+
+    </header>
+
+
+    <!-- Main -->
+
+    <main class="container">
+
+
+        <!-- Welcome -->
+
+        <section class="welcome-section">
+
+            <div>
+
+                <h2>
+                    Fraud Detection Dashboard
+                </h2>
+
+                <p>
+                    Monitor transactions, detect suspicious
+                    activity, and review flagged transactions.
+                </p>
+
+            </div>
+
+
+            <button
+                class="refresh-btn"
+                onclick="loadDashboard()">
+
+                🔄 Refresh
+
+            </button>
+
+        </section>
+
+
+        <!-- Statistics -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💳
+                </div>
+
+                <div>
+
+                    <p>
+                        Total Transactions
+                    </p>
+
+                    <h3 id="totalTransactions">
+                        0
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card warning-card">
+
+                <div class="stat-icon">
+                    🚨
+                </div>
+
+                <div>
+
+                    <p>
+                        Flagged Transactions
+                    </p>
+
+                    <h3 id="flaggedTransactions">
+                        0
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card success-card">
+
+                <div class="stat-icon">
+                    ✅
+                </div>
+
+                <div>
+
+                    <p>
+                        Reviewed Transactions
+                    </p>
+
+                    <h3 id="reviewedTransactions">
+                        0
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card rule-card">
+
+                <div class="stat-icon">
+                    ⚙️
+                </div>
+
+                <div>
+
+                    <p>
+                        Active Fraud Rules
+                    </p>
+
+                    <h3 id="activeRules">
+                        0
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Quick Actions -->
+
+        <section class="section">
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        Quick Actions
+                    </h2>
+
+                    <p>
+                        Manage the FraudWatch system
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="action-grid">
+
+
+                <button
+                    class="action-card"
+                    onclick="showSection('addTransaction')">
+
+                    <span>
+                        ➕
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Add Transaction
+                        </h3>
+
+                        <p>
+                            Record a new wallet transaction
+                        </p>
+
+                    </div>
+
+                </button>
+
+
+                <button
+                    class="action-card"
+                    onclick="showSection('transactions')">
+
+                    <span>
+                        💳
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Transactions
+                        </h3>
+
+                        <p>
+                            View recorded wallet transactions
+                        </p>
+
+                    </div>
+
+                </button>
+
+
+                <button
+                    class="action-card"
+                    onclick="showSection('alerts')">
+
+                    <span>
+                        🚨
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Fraud Alerts
+                        </h3>
+
+                        <p>
+                            Review suspicious transactions
+                        </p>
+
+                    </div>
+
+                </button>
+
+
+                <button
+                    class="action-card"
+                    onclick="showSection('rules')">
+
+                    <span>
+                        ⚙️
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            Fraud Rules
+                        </h3>
+
+                        <p>
+                            Manage anomaly detection rules
+                        </p>
+
+                    </div>
+
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- Add Transaction -->
+
+        <section
+            id="addTransaction"
+            class="section dashboard-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        ➕ Record New Transaction
+                    </h2>
+
+                    <p>
+                        Enter transaction details for fraud analysis
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form
+                id="transactionForm"
+                class="transaction-form">
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="accountNumber">
+                            Account Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="accountNumber"
+                            placeholder="Example: ACC1005"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="amount">
+                            Amount
+                        </label>
+
+                        <input
+                            type="number"
+                            id="amount"
+                            placeholder="Example: 5000"
+                            min="1"
+                            step="0.01"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="transactionType">
+                            Transaction Type
+                        </label>
+
+                        <select
+                            id="transactionType"
+                            required>
+
+                            <option value="">
+                                Select transaction type
+                            </option>
+
+                            <option value="PAYMENT">
+                                PAYMENT
+                            </option>
+
+                            <option value="TRANSFER">
+                                TRANSFER
+                            </option>
+
+                            <option value="WITHDRAWAL">
+                                WITHDRAWAL
+                            </option>
+
+                            <option value="DEPOSIT">
+                                DEPOSIT
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="merchant">
+                            Merchant
+                        </label>
+
+                        <input
+                            type="text"
+                            id="merchant"
+                            placeholder="Example: Amazon"
+                            required>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="submit-btn">
+
+                        🔍 Record & Check Transaction
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="clear-btn"
+                        onclick="clearTransactionForm()">
+
+                        Clear
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="transactionMessage"
+                    class="form-message">
+                </div>
+
+
+            </form>
+
+        </section>
+
+
+        <!-- Transactions -->
+
+        <section
+            id="transactions"
+            class="section dashboard-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        Recent Transactions
+                    </h2>
+
+                    <p>
+                        Latest transactions recorded by the system
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                ID
+                            </th>
+
+                            <th>
+                                Account
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Merchant
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="transactionTable">
+
+                        <tr>
+
+                            <td colspan="6">
+                                Loading transactions...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- Fraud Alerts -->
+
+        <section
+            id="alerts"
+            class="section dashboard-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        🚨 Fraud Alerts
+                    </h2>
+
+                    <p>
+                        Transactions currently flagged by fraud rules
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div id="alertsContainer">
+
+                <div class="empty-message">
+                    Loading fraud alerts...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Fraud Rules -->
+
+        <section
+            id="rules"
+            class="section dashboard-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        ⚙️ Fraud Rules
+                    </h2>
+
+                    <p>
+                        Currently configured anomaly detection rules
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="rules-grid"
+                id="rulesContainer">
+
+                <div class="empty-message">
+                    Loading fraud rules...
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            FraudWatch © 2026 |
+            Digital Wallet Fraud Detection System
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
